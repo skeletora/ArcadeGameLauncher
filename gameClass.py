@@ -3,16 +3,17 @@ import pygame
 pygame.init()
 
 STARTPATH = "C:\Games"
+NOT_THERE = "NA"
 
 class GameClass:
 	"This stores all of the game's data"
 	def __init__(self):
-		self.game = "NA"
-		self.image = "NA"
-		self.info = "NA"
-		self.controls = "NA"
-		self.music = "NA"
-		self.ratings = [0]
+		self.game = NOT_THERE
+		self.image = NOT_THERE
+		self.info = NOT_THERE
+		self.controls = NOT_THERE
+		self.music = NOT_THERE
+		self.ratings = []
 	
 	def SetGame(self, filePath):
 		self.game = filePath
@@ -30,21 +31,25 @@ class GameClass:
 		self.music = musicPath
 		
 	def AddRating(self, score):
-		if score > 10:
+		if int(score) > 10:
 			score = 10
-		if score < 0:
+		if int(score) < 0:
 			score = 0
-		self.ratings.append(score)
+		self.ratings.append(int(score))
 		
 	def Rating(self):
 		rating = 0
 		
-		for score in ratings:
+		for score in self.ratings:
 			rating = rating + score
 			
 		rating = rating / len(self.ratings)
+		
+		return round(rating, 2)
 
 class GameListClass:
+	"Generates and stores a list of all the games in the system"
+	
 	def __init__(self):
 		self.gamesList = self.GenerateGameList()
 		
