@@ -4,6 +4,7 @@ import sys, pygame
 
 class Menu:
 
+
     def __init__(self, screen, imageNames):
         self.screen = screen
         self.ON_SCREEN = 5
@@ -33,13 +34,11 @@ class Menu:
             self.buttons.append(GameButton(self.bNames[(self.cursor + self.ON_SCREEN-1) % len(self.bNames)]))
             self.buttons[-1].Move(self.buttons[-2].pos[0]+612, self.height/4)
 
-
         elif self.buttons[-1].pos[0]-512 > self.width:
             self.cursor = (self.cursor - 1) % len(self.bNames)
             self.buttons.pop()
             self.buttons.appendleft(GameButton(self.bNames[self.cursor]))
             self.buttons[0].Move(self.buttons[1].pos[0]-612,self.height/4)
-
 
 
     def Draw(self):
@@ -48,3 +47,14 @@ class Menu:
         for i in self.buttons:
             self.screen.blit(i.img, i.pos)
         pygame.display.flip()
+
+
+    def CheckClick(self, mouse):
+        pos = mouse.get_pos()
+        clicked = None
+
+        for i,b in enumerate(self.buttons):
+            if b.CheckClicked(pos):
+                clicked = i
+
+        return clicked
