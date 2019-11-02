@@ -3,16 +3,15 @@ import pygame
 pygame.init()
 
 STARTPATH = "C:\Games"
-NOT_THERE = "NA"
 
 class GameClass:
 	"This stores all of the game's data"
 	def __init__(self):
-		self.game = NOT_THERE
-		self.image = NOT_THERE
-		self.info = NOT_THERE
-		self.controls = NOT_THERE
-		self.music = NOT_THERE
+		self.game = None
+		self.image = None
+		self.info = None
+		self.controls = None
+		self.music = None
 		self.ratings = []
 	
 	def SetGame(self, filePath):
@@ -66,7 +65,7 @@ class GameListClass:
 			
 			for file in temp2:
 				path = os.path.join(temp, file)
-				path = '"%s"' %(path)
+				path = '%s' %(path)
 				
 				if file.endswith(".exe"):
 					game.SetGame(path)

@@ -1,7 +1,11 @@
-from GameButton import GameButton
+from gameClass import GameClass, GameListClass
 from menu import Menu
-import sys, pygame
+import sys
+import pygame
+import subprocess
+import os
 from time import sleep
+os.environ['SDL_VIDEO_WINDOW_POS'] = '0, 0'
 
 def InitImages():
     images = ["DemoPics/Game1/thumb.jpg", "DemoPics/Game2/thumb.jpg", "DemoPics/Game3/thumb.jpg",
@@ -35,10 +39,14 @@ def CheckPress(event, moveCount, menu):
 
 
 pygame.init()
-menu = Menu(pygame.display.set_mode((0, 0), pygame.FULLSCREEN), InitImages())
+
+menu = Menu(pygame.display.set_mode((1920, 1080), pygame.NOFRAME), GameListClass())
+
+
 moveCount = 0
 pos = None
 MAX_SPEED = 12
+
 
 menu.Draw()
 while True:
@@ -47,9 +55,15 @@ while True:
         moveCount, pos = CheckPress(event, moveCount, menu)
 
     if pos is not None:
-        print(pos)
+        menu.screen.fill((0, 0, 0))
+        pygame.display.flip()
+        game = subprocess.Popen('"' + menu.buttons[pos].game.game + '"')
+        game.wait()
+        menu.Draw()
+        moveCount = 0
         pos = None
 
     if moveCount != 0:
         menu.Rotate(moveCount)
         menu.Draw()
+

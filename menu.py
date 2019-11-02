@@ -5,12 +5,18 @@ import sys, pygame
 class Menu:
 
 
-    def __init__(self, screen, imageNames):
+    def __init__(self, screen, games):
         self.screen = screen
         self.ON_SCREEN = 5
         self.width, self.height = pygame.display.get_surface().get_size()
-        self.bNames = imageNames
-        self.buttons = self.InitButtons(imageNames)
+
+        self.gameList = games
+
+        self.bNames = []
+        for game in self.gameList.gamesList:
+            self.bNames.append(game.image)
+
+        self.buttons = self.InitButtons(self.bNames)
         self.cursor = 0
 
 
@@ -18,7 +24,7 @@ class Menu:
 
         buttons = col.deque()
         for i in range(self.ON_SCREEN):
-            buttons.append(GameButton(self.bNames[i]))
+            buttons.append(GameButton(self.gameList.gamesList[i]))
             buttons[-1].Move(612*(i-.5), self.height/4)
 
         return buttons
@@ -31,13 +37,13 @@ class Menu:
         if self.buttons[0].pos[0]+1024 < 0:
             self.cursor = (self.cursor + 1) % len(self.bNames)
             self.buttons.popleft()
-            self.buttons.append(GameButton(self.bNames[(self.cursor + self.ON_SCREEN-1) % len(self.bNames)]))
+            self.buttons.append(GameButton(self.gameList.gamesList[(self.cursor + self.ON_SCREEN-1) % len(self.bNames)]))
             self.buttons[-1].Move(self.buttons[-2].pos[0]+612, self.height/4)
 
         elif self.buttons[-1].pos[0]-512 > self.width:
             self.cursor = (self.cursor - 1) % len(self.bNames)
             self.buttons.pop()
-            self.buttons.appendleft(GameButton(self.bNames[self.cursor]))
+            self.buttons.appendleft(GameButton(self.gameList.gamesList[self.cursor]))
             self.buttons[0].Move(self.buttons[1].pos[0]-612,self.height/4)
 
 

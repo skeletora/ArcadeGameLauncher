@@ -2,8 +2,9 @@ import pygame
 
 class GameButton:
 
-    def __init__(self, img):
-        self.img = pygame.transform.scale(pygame.image.load(img).convert_alpha(), (512, 512))
+    def __init__(self, game):
+        self.game = game
+        self.img = pygame.transform.scale(pygame.image.load(game.image).convert_alpha(), (512, 512))
         self.pos = self.img.get_rect()
 
     def Move(self, x=0, y=0):
