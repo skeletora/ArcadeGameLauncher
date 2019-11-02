@@ -1,7 +1,7 @@
 from gameClass import GameClass, GameListClass
 from menu import Menu
-import sys
 import pygame
+import sys
 import subprocess
 import os
 from time import sleep
@@ -35,7 +35,6 @@ def CheckPress(event, moveCount, menu):
         pos = menu.CheckClick(pygame.mouse)
 
     return moveCount, pos
-
 
 
 pygame.init()
