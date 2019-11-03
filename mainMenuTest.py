@@ -17,10 +17,18 @@ menu = MainMenu(pygame.display.set_mode((0, 0), pygame.FULLSCREEN),
 		pygame.font.Font("C:/Windows/Fonts/OLDENGL.ttf", 50))
 
 
-menu.Draw()
+#menu.Draw()
 
-while True:
-	menu.Move()
+start = 0
+end = 10
+
+while start < end:
+	#menu.Move()
+	print(start)
+	print("\n\n\n\n")
+	start = menu.Learp(start, end, start)
+	print(start)
+	print("\n\n\n\n")
 
 	'''
 	time.sleep(5)

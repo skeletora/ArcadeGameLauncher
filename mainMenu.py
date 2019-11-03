@@ -4,14 +4,27 @@ from random import randrange
 import time
 pygame.init()
 
+'''
+class FontClass:
+	def __init__(self, font, x, y):
+'''
+		
+
 class MainMenu:
 	def __init__(self, screen, font):
 		self.background = "C:/Users/r813486a/Documents/ArcadeGameLauncher/MenuGraphics/arcadetitle.png"
 		self.screen = screen
 		self.width, self.height = pygame.display.get_surface().get_size()
+		
 		self.font = font
 		self.text = self.font.render("Welcome to the... Edinboro Arcade!", True, (255, 255, 255))
-
+		self.fontX = (self.width - self.text.get_width()) // 2
+		self.fontY = (self.height - self.text.get_height()) // 2
+		self.fontUp = True
+		self.fontSet = False
+		self.fontArrived = False
+		self.fontDestination = 0
+		
 	'''
 	// Precise method, which guarantees v = v1 when t = 1.
 	float lerp(float v0, float v1, float t) {
@@ -19,7 +32,12 @@ class MainMenu:
 	}
 	'''
 	def Learp(self, v1, v2, t):
+		print("""Inside learp.
+		v1 is: %s
+		v2 is: %s
+		t is: %s""" %(v1, v2, t))
 		pos = (1 - t) * v1 + t * v2
+		print("pos is: %s" %pos)
 		
 		return pos
 		
@@ -68,29 +86,38 @@ if __name__ == '__main__':
     pg.quit()
 	'''
 	def Move(self):
-		arrived = True
-		
-		if arrived == True:
-			changeX = randrange(self.width // 2)
-			changeY = randrange(self.height // 2)
-			if randrange(10) > 4:
-				changeX = changeX * -1
-			else:
-				changeY = changeY * -1
-			arrived = False
+		if self.fontUp == True and self.fontSet == False:
+			self.fontDestination = self.fontY - 10
+			self.fontSet = True
+			self.fontArrived = False
+		elif self.fontSet == False:
+			self.fontDestination = self.fontY + 10
+			self.fontSet = True
+			self.fontArrived = False
 			
-		while not arrived:
-			self.screen.fill((0,0,0))
-			self.screen.blit(self.text,
-			((self.width - self.text.get_width() + changeX) // 2, 
-			(self.height - self.text.get_height() + changeY) // 2))
+		if not self.fontArrived:
+			self.menu = pygame.transform.scale(pygame.image.load(self.background).convert_alpha(), (1400, 1024))
+			self.menuRect = self.menu.get_rect()
+			self.screen.blit(self.menu, self.menuRect)
+			
+			self.fontY = self.fontY + self.Learp(self.fontY, self.fontDestination, abs(self.fontDestination - self.fontY))
+			print(self.fontY)
+			
+			self.screen.blit(self.text, (self.fontX, self.fontY))
 			pygame.display.flip()
 			
+			
+			if self.fontY == self.fontDestination:
+				self.fontArrived = True
+				self.fontUp = False
+				self.fontSet = False
 		
 	def Draw(self):
-		self.screen.fill((0,0,0))
-		self.screen.blit(self.text,
-        ((self.width - self.text.get_width()) // 2, (self.height - self.text.get_height()) // 2))
+		#self.screen.fill((0,0,0))
+		self.menu = pygame.transform.scale(pygame.image.load(self.background).convert_alpha(), (1400, 1024))
+		self.menuRect = self.menu.get_rect()
+		self.screen.blit(self.menu, self.menuRect)
+		self.screen.blit(self.text, (self.fontX, self.fontY))
 		'''
 		self.menu = pygame.transform.scale(pygame.image.load(self.background).convert_alpha(), (1400, 1024))
 		self.menuRect = self.menu.get_rect()
