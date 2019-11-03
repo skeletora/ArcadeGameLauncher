@@ -5,9 +5,9 @@ import collections as col
 import sys, pygame
 
 LAUNCHERPATH="C:\Launcher"
-BUTTONSIZE=128
+BUTTONSIZE=256
 
-class InfoMenu:
+class ControlsMenu:
 
 	def __init__(self, screen, game):
 		self.screen = screen
@@ -17,8 +17,8 @@ class InfoMenu:
 
 		self.game = game
 		
-		with open(self.game.info) as f:
-			self.info = f.read()
+		with open(self.game.controls) as f:
+			self.controls = f.read()
 
 		self.buttons = self.InitButtons()
 		self.titleFont = pygame.font.SysFont('oldenglishtext', 64)
@@ -30,21 +30,15 @@ class InfoMenu:
 		newButton = GameClass()
 		#Create "play game" button
 		newButton.SetGame(self.game.game)
-		newButton.SetControls(self.game.controls)
 		newButton.SetImage(LAUNCHERPATH + '\playbutton.png')
 		
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
 		buttons[-1].Move(self.width-BUTTONSIZE,100)
 		
-		#Create "controls" button
-		newButton.SetImage(LAUNCHERPATH + '\controlsbutton.png')
-		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE*2-20,100)
-		
 		#Create "go back" button
 		newButton.SetImage(LAUNCHERPATH + '\cbackbutton.png')
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE*3-40,100)
+		buttons[-1].Move(self.width-BUTTONSIZE*2-20,100)
 
 		return buttons
 		
@@ -72,8 +66,8 @@ class InfoMenu:
 		for i in self.buttons:
 			self.screen.blit(i.img, i.pos)
 			
-		self.MakeText(self.screen, self.info, (100, self.height*(1/3)), self.font)
-		self.MakeText(self.screen, "Game Info!", (100, 100), self.titleFont)
+		self.MakeText(self.screen, self.controls, (100, self.height*(1/3)), self.font)
+		self.MakeText(self.screen, "Game Controls!", (100, 100), self.titleFont)
 		
 		pygame.display.flip()
 

@@ -2,6 +2,8 @@ from GameButton import GameButton
 import collections as col
 import sys, pygame
 
+LAUNCHERPATH="C:\Launcher"
+
 class Menu:
 
 
@@ -9,6 +11,9 @@ class Menu:
         self.screen = screen
         self.ON_SCREEN = 5
         self.width, self.height = pygame.display.get_surface().get_size()
+        self.background = LAUNCHERPATH + '\darkenedbackground.png'
+        self.menu = pygame.transform.scale(pygame.image.load(self.background).convert_alpha(), (self.width, self.width))
+
 
         self.gameList = games
 
@@ -49,6 +54,7 @@ class Menu:
 
     def Draw(self):
         self.screen.fill((255, 255, 255))
+        self.screen.blit(self.menu, (0,0))
 
         for i in self.buttons:
             self.screen.blit(i.img, i.pos)
