@@ -60,23 +60,25 @@ while True:
         moveCount, pos = CheckPress(event, moveCount, menu)
 
     if pos is not None:
-        menu.screen.fill((0, 0, 0))
-        pygame.display.flip()
-        game = subprocess.Popen('"' + menu.buttons[pos].game.game + '"')
+        #menu.screen.fill((0, 0, 0))
+        #pygame.display.flip()
+        #game = subprocess.Popen('"' + menu.buttons[pos].game.game + '"')
 		# Code to minimize launcher
-        win32gui.EnumWindows(enum_callback, toplist)
-        pygameW = [(hwnd, title) for hwnd, title in winlist if 'pygame' in title.lower()]
-        pygameW = pygameW[0]
-        win32gui.SetForegroundWindow(pygameW[0])
-        win32gui.ShowWindow(pygameW[0], win32con.SW_HIDE)
+        #win32gui.EnumWindows(enum_callback, toplist)
+        #pygameW = [(hwnd, title) for hwnd, title in winlist if 'pygame' in title.lower()]
+        #pygameW = pygameW[0]
+        #win32gui.SetForegroundWindow(pygameW[0])
+        #win32gui.ShowWindow(pygameW[0], win32con.SW_HIDE)
 		# Everything that needs to happen at game launch needs to be before this.
-        game.wait()
+        #game.wait()
 		# Once game terminates, redraw and maximize.
-        menu.Draw()
+        #menu.Draw()
+        infoMenu = InfoMenu(pygame.display.set_mode((1366, 768), pygame.NOFRAME), menu.buttons[pos].game)
+        infoMenu.Draw()
         moveCount = 0
         pos = None
-        win32gui.ShowWindow(pygameW[0], win32con.SW_SHOW)
-
+        #win32gui.ShowWindow(pygameW[0], win32con.SW_SHOW)
+		
     if moveCount != 0:
         menu.Rotate(moveCount)
         menu.Draw()
