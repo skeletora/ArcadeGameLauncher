@@ -34,17 +34,17 @@ class InfoMenu:
 		newButton.SetImage(LAUNCHERPATH + '\playbutton.png')
 		
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE,100)
+		buttons[-1].Move(self.width-BUTTONSIZE-20,100)
 		
 		#Create "controls" button
 		newButton.SetImage(LAUNCHERPATH + '\controlsbutton.png')
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE*2-20,100)
+		buttons[-1].Move(self.width-BUTTONSIZE*2-40,100)
 		
 		#Create "go back" button
 		newButton.SetImage(LAUNCHERPATH + '\cbackbutton.png')
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE*3-40,100)
+		buttons[-1].Move(self.width-BUTTONSIZE*3-60,100)
 
 		return buttons
 		

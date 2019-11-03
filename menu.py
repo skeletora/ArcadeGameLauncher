@@ -22,6 +22,7 @@ class Menu:
             self.bNames.append(game.image)
 
         self.buttons = self.InitButtons(self.bNames)
+        self.titleFont = pygame.font.SysFont('oldenglishtext', 64)
         self.cursor = 0
 
 
@@ -51,6 +52,22 @@ class Menu:
             self.buttons.appendleft(GameButton(self.gameList.gamesList[self.cursor]))
             self.buttons[0].Move(self.buttons[1].pos[0]-612,self.height/4)
 
+    def MakeText(self, surface, text, pos, font, color=pygame.Color('white')):
+        tokens = [word.split(' ') for word in text.splitlines()]
+        space = font.size(' ')[0]
+        max_width, max_height = surface.get_size()
+        x, y = pos
+        for line in tokens:
+            for word in line:
+                token_surface = font.render(word, 0, color)
+                token_width, token_height = token_surface.get_size()
+                if x + token_width >= max_width:
+                    x = pos[0]
+                    y += token_height
+                surface.blit(token_surface, (x, y))
+                x += token_width + space
+            x = pos[0]
+            y += token_height
 
     def Draw(self):
         self.screen.fill((255, 255, 255))
@@ -58,6 +75,8 @@ class Menu:
 
         for i in self.buttons:
             self.screen.blit(i.img, i.pos)
+			
+        self.MakeText(self.screen, "Please Select A Game", (self.width*(1/2)-300, 20), self.titleFont)
         pygame.display.flip()
 
 

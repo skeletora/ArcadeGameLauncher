@@ -5,7 +5,7 @@ import collections as col
 import sys, pygame
 
 LAUNCHERPATH="C:\Launcher"
-BUTTONSIZE=256
+BUTTONSIZE=200
 
 class ControlsMenu:
 
@@ -33,12 +33,12 @@ class ControlsMenu:
 		newButton.SetImage(LAUNCHERPATH + '\playbutton.png')
 		
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE,100)
+		buttons[-1].Move(self.width-BUTTONSIZE-20,100)
 		
 		#Create "go back" button
 		newButton.SetImage(LAUNCHERPATH + '\cbackbutton.png')
 		buttons.append(MenuButton(newButton, BUTTONSIZE, BUTTONSIZE))
-		buttons[-1].Move(self.width-BUTTONSIZE*2-20,100)
+		buttons[-1].Move(self.width-BUTTONSIZE*2-60,100)
 
 		return buttons
 		

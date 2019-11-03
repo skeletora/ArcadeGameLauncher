@@ -18,7 +18,7 @@ def InitImages():
     return images
 
 
-def CheckPress(event, moveCount, menu):
+def CheckPress(event, moveCount, menu, info = False, controls = False):
 
     pos = None
     pos2 = None
@@ -26,7 +26,7 @@ def CheckPress(event, moveCount, menu):
 
     if event.type == pygame.QUIT:
         sys.exit()
-    elif event.type == pygame.KEYDOWN and infoActive == False and controlsActive == False:
+    elif event.type == pygame.KEYDOWN and info == False and controls == False:
         if event.key == pygame.K_ESCAPE:
             sys.exit()
         elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
@@ -38,11 +38,11 @@ def CheckPress(event, moveCount, menu):
         elif moveCount < -MAX_SPEED:
             moveCount = -MAX_SPEED
     elif event.type == pygame.MOUSEBUTTONDOWN:
-        if infoActive == False and controlsActive == False:
+        if not info and not controls: 
             pos = menu.CheckClick(pygame.mouse)
-        elif infoActive == True:
+        elif info and not controls: 
             pos2 = infoMenu.CheckClick(pygame.mouse)
-        elif controlsActive == True:
+        elif controls and not info: 
             pos3 = controlsMenu.CheckClick(pygame.mouse)
 
     return moveCount, pos, pos2, pos3
@@ -71,7 +71,7 @@ menu.Draw()
 while True:
 
     for event in pygame.event.get():
-        moveCount, pos, pos2, pos3 = CheckPress(event, moveCount, menu)
+        moveCount, pos, pos2, pos3 = CheckPress(event, moveCount, menu, infoActive, controlsActive)
 
     if pos is not None:
         infoMenu = InfoMenu(pygame.display.set_mode((1366, 768), pygame.NOFRAME), menu.buttons[pos].game)
@@ -103,6 +103,7 @@ while True:
             controlsMenu.Draw()
             pos2 = None
             infoActive = False
+            controlsActive = True
         elif pos2 == 2:
             pos2 = None
             infoActive = False
@@ -126,7 +127,7 @@ while True:
             pos3 = None
             controlsActive = False
             win32gui.ShowWindow(pygameW[0], win32con.SW_SHOW)
-        elif pos2 == 1:
+        elif pos3 == 1:
             pos3 = None
             controlsActive = False
             infoActive = True
