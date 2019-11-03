@@ -1,9 +1,12 @@
 from gameClass import GameClass, GameListClass
+from infoMenu import InfoMenu
 from menu import Menu
 import sys
 import pygame
 import subprocess
 import os
+import win32gui
+import win32con
 from time import sleep
 os.environ['SDL_VIDEO_WINDOW_POS'] = '0, 0'
 
@@ -36,12 +39,14 @@ def CheckPress(event, moveCount, menu):
 
     return moveCount, pos
 
-
+def enum_callback(hwnd, results):
+    winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
 
 pygame.init()
 
-menu = Menu(pygame.display.set_mode((1920, 1080), pygame.NOFRAME), GameListClass())
-
+menu = Menu(pygame.display.set_mode((1366, 768), pygame.NOFRAME), GameListClass())
+toplist = []
+winlist = []
 
 moveCount = 0
 pos = None
@@ -58,10 +63,19 @@ while True:
         menu.screen.fill((0, 0, 0))
         pygame.display.flip()
         game = subprocess.Popen('"' + menu.buttons[pos].game.game + '"')
+		# Code to minimize launcher
+        win32gui.EnumWindows(enum_callback, toplist)
+        pygameW = [(hwnd, title) for hwnd, title in winlist if 'pygame' in title.lower()]
+        pygameW = pygameW[0]
+        win32gui.SetForegroundWindow(pygameW[0])
+        win32gui.ShowWindow(pygameW[0], win32con.SW_HIDE)
+		# Everything that needs to happen at game launch needs to be before this.
         game.wait()
+		# Once game terminates, redraw and maximize.
         menu.Draw()
         moveCount = 0
         pos = None
+        win32gui.ShowWindow(pygameW[0], win32con.SW_SHOW)
 
     if moveCount != 0:
         menu.Rotate(moveCount)
