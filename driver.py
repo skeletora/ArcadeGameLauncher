@@ -59,11 +59,13 @@ toplist = []
 winlist = []
 
 moveCount = 0
+pos0 = None
 pos = None
 pos2 = None
 pos3 = None
 infoActive = False
 controlsActive = False
+titleActive = True
 MAX_SPEED = 12
 
 
@@ -73,6 +75,10 @@ while True:
     for event in pygame.event.get():
         moveCount, pos, pos2, pos3 = CheckPress(event, moveCount, menu, infoActive, controlsActive)
 
+    if pos0 is not None:
+        #This is a placeholder for the title menu code
+        pos0 = None
+		
     if pos is not None:
         infoMenu = InfoMenu(pygame.display.set_mode((1366, 768), pygame.NOFRAME), menu.buttons[pos].game)
         infoMenu.Draw()
@@ -136,4 +142,3 @@ while True:
     if moveCount != 0:
         menu.Rotate(moveCount)
         menu.Draw()
-
